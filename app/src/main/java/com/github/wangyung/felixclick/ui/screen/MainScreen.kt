@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import com.github.wangyung.felixclick.R
 import com.github.wangyung.felixclick.ui.component.CircleButton
 import com.github.wangyung.felixclick.ui.component.FrontTruncatedTextView
+import com.github.wangyung.felixclick.ui.component.LongPressableButton
 import com.github.wangyung.felixclick.ui.theme.ButtonSize
 import com.github.wangyung.felixclick.ui.theme.FelixClickTheme
 import com.github.wangyung.felixclick.ui.theme.Grey200
@@ -42,7 +44,7 @@ import com.github.wangyung.felixclick.ui.theme.Teal200
 
 @Composable
 fun MainScreen(modifier: Modifier = Modifier) {
-    Column(modifier = modifier.padding(8.dp), verticalArrangement = Arrangement.SpaceEvenly) {
+    Column(modifier = modifier.padding(12.dp), verticalArrangement = Arrangement.SpaceEvenly) {
         val inputTextBuilder = remember { mutableStateOf("") }
         Row(
             modifier = Modifier
@@ -61,27 +63,19 @@ fun MainScreen(modifier: Modifier = Modifier) {
                     .weight(1f)
             )
             val hapticFeedback = LocalHapticFeedback.current
-            IconButton(
-                modifier = Modifier.pointerInput(Unit) {
-                    detectTapGestures(
-                        onLongPress = {
-                            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
-                            inputTextBuilder.value = ""
-                        },
-                    )
-                },
+            LongPressableButton(
+                modifier = Modifier.size(56.dp),
                 onClick = {
                     hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
                     inputTextBuilder.value = inputTextBuilder.value.dropLast(1)
+                },
+                onLongPress = {
+                    hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
+                    inputTextBuilder.value = ""
                 }
             ) {
                 Icon(
-                    modifier = Modifier.padding(
-                        top = 12.dp,
-                        bottom = 12.dp,
-                        end = 12.dp,
-                        start = 4.dp
-                    ),
+                    modifier = Modifier.padding(8.dp),
                     painter = painterResource(id = R.drawable.icon_backspace),
                     contentDescription = null
                 )
